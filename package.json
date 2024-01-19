@@ -5,6 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon ./server.js",
+    "test": "jest",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
@@ -22,6 +23,7 @@
     "morgan": "1.10.0",
     "multer": "^1.4.5-lts.1",
     "nanoid": "^5.0.4",
+    "nodemailer": "^6.9.8",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

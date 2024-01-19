@@ -20,6 +20,14 @@ const userSchema = new Schema({
     default: "starter",
   },
   avatarURL: String,
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, "Verify token is required"],
+  },
   token: String,
 },{
   timestamps: true,
@@ -28,7 +36,6 @@ const userSchema = new Schema({
 
 userSchema.post("save", handleMongooseError);
 const emailMatch = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-// const emailMatch = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const registerSchema = Joi.object({
   email: Joi.string().pattern(emailMatch).required(),
@@ -47,10 +54,15 @@ const subscriptionUserSchema = Joi.object({
     .required(),
 });
 
+const resendEmail = Joi.object({
+  email: Joi.string().pattern(emailMatch).required(),
+}).messages({ "any.required": "missing required field {#key}" });
+
 const userSchemas = {
   registerSchema,
   loginSchema,
   subscriptionUserSchema,
+  resendEmail,
 };
 
 const User = model("user", userSchema);

@@ -8,7 +8,6 @@ const {
   isFile,
 } = require("../../middlewares");
 const { userSchemas } = require("../../models");
-// const { HttpError } = require("../../helpers");
 
 const router = express.Router();
 
@@ -16,6 +15,14 @@ router.post(
   "/register",
   validateBody(userSchemas.registerSchema),
   userControllers.register
+);
+
+router.get("/verify/:verificationToken", userControllers.verificationToken);
+
+router.post(
+  "/verify",
+  validateBody(userSchemas.resendEmail),
+  userControllers.resendVerifyEmail
 );
 
 router.post(
@@ -35,19 +42,6 @@ router.patch(
   userControllers.changeSubscription
 );
 
-// router.patch(
-//   "/avatars",
-//   authenticate,
-//   upload.single("avatar"),
-//   (req, res, next) => {
-//     next(req.file ? null : HttpError(400, 'Add file!'));
-//   },
-//   (req, res, next) => {
-//     next();
-//   },
-//   resizeAvatar,
-//   userControllers.updateAvatar
-// );
 router.patch(
   "/avatars",
   authenticate,
@@ -56,6 +50,5 @@ router.patch(
   resizeAvatar,
   userControllers.updateAvatar
 );
-
 
 module.exports = router;

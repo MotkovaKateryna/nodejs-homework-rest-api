@@ -19,6 +19,8 @@ const login = async (req, res) => {
 
   if (!comparePassword) throw HttpError(401, "Email or password is wrong");
 
+  if (!user.verify) throw HttpError(401, "Email not verify");
+
   const payload = { id };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
